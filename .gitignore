@@ -43,5 +43,8 @@ next-env.d.ts
 # claude
 .claude/
 
+# progress notes
+PROGRESS.md
+
 # excel temp files
 ~$*

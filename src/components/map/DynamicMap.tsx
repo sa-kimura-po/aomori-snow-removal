@@ -5,6 +5,7 @@ import { MapContainer, TileLayer, useMapEvents, Marker } from "react-leaflet";
 import L from "leaflet";
 import { AOMORI_CENTER, DEFAULT_ZOOM } from "@/lib/constants";
 import { useReports } from "@/hooks/useReports";
+import { useAuth } from "@/hooks/useAuth";
 import ReportMarker from "./ReportMarker";
 import MapLegend from "./MapLegend";
 import "leaflet/dist/leaflet.css";
@@ -55,6 +56,7 @@ export default function DynamicMap({
   selectedPosition,
 }: DynamicMapProps) {
   const { reports, fetchReports } = useReports();
+  const { user } = useAuth();
   const mapRef = useRef<L.Map | null>(null);
 
   const handleBoundsChange = useCallback(() => {
@@ -99,7 +101,12 @@ export default function DynamicMap({
         {/* 投稿マーカー（投稿選択モードでない場合のみ表示） */}
         {!interactive &&
           reports.map((report) => (
-            <ReportMarker key={report.id} report={report} />
+            <ReportMarker
+              key={report.id}
+              report={report}
+              currentUserId={user?.id}
+              onDeleted={handleBoundsChange}
+            />
           ))}
 
         {/* 選択位置マーカー */}

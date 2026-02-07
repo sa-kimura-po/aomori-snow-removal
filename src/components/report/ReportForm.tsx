@@ -31,10 +31,16 @@ export default function ReportForm() {
       // 写真アップロード
       if (photo) {
         const supabase = createClient();
-        const fileName = `${Date.now()}-${Math.random().toString(36).slice(2)}.jpg`;
+        const { data: { user } } = await supabase.auth.getUser();
+        if (!user) {
+          setError("ログインが必要です");
+          setSubmitting(false);
+          return;
+        }
+        const filePath = `${user.id}/${Date.now()}-${Math.random().toString(36).slice(2)}.jpg`;
         const { error: uploadError } = await supabase.storage
           .from("report-photos")
-          .upload(fileName, photo, { contentType: "image/jpeg" });
+          .upload(filePath, photo, { contentType: "image/jpeg" });
 
         if (uploadError) {
           setError("写真のアップロードに失敗しました");
@@ -44,7 +50,7 @@ export default function ReportForm() {
 
         const { data: urlData } = supabase.storage
           .from("report-photos")
-          .getPublicUrl(fileName);
+          .getPublicUrl(filePath);
 
         photo_url = urlData.publicUrl;
       }
