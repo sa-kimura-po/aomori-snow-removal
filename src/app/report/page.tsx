@@ -46,10 +46,11 @@ export default function ReportPage() {
         <PenSquare className="w-6 h-6 text-blue-700" />
         <h1 className="text-xl font-bold">除排雪状況を投稿</h1>
       </div>
-      <p className="text-sm text-gray-600 mb-6">
-        地図をタップして場所を選び、現在の除排雪状況を投稿してください。
-        投稿は24時間後に自動的に期限切れになります。
-      </p>
+      <div className="bg-green-50 border border-green-200 rounded-lg p-3 mb-6">
+        <p className="text-sm text-green-800">
+          ここで投稿した除排雪状況は「現況マップ」に表示され、他の市民と共有されます。地図をタップして場所を選び、状況を投稿してください。投稿は24時間後に自動的に期限切れになります。
+        </p>
+      </div>
       <ReportForm />
     </div>
   );
